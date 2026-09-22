@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/features/auth/authSlice";
 import { type AppDispatch, type RootState } from "@/store/store";
 import { Button } from "@/components/ui/button";
-import users from "@/src/data/users.json";
+import users from "@/data/users.json";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
