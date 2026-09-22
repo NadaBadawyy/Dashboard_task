@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nada's Shop Dashboard
 
-## Getting Started
+Nada's Shop is a responsive Next.js dashboard assessment project with mock authentication, dashboard analytics, order management, chart visualization, PDF/XLSX export, and Docker support.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Mock login with persisted authentication
+- Protected dashboard route with Redux Toolkit
+- Responsive shadcn-style sidebar and dashboard header
+- KPI cards, sales chart, and recent activity panel
+- Searchable, filterable, sortable, paginated orders table
+- Export filtered and sorted orders to Excel and PDF
+- Production Docker image using Next.js standalone output
+
+## Tech Stack
+
+- Next.js 16 App Router
+- React 19 and TypeScript
+- Tailwind CSS 4
+- Redux Toolkit and React Redux
+- shadcn UI primitives with Base UI and Lucide icons
+- Recharts
+- `xlsx`, `jspdf`, and `jspdf-autotable`
+- Docker with Node.js 22 Alpine
+
+## Demo Login
+
+```text
+Email: admin@gmail.com
+Password: 123456
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Credentials are stored in [data/users.json](data/users.json) for this mock-only assessment implementation.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Run Locally
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Requirements: Node.js 22 or newer and npm.
 
-## Learn More
+```bash
+npm install
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open [http://localhost:3000](http://localhost:3000).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Available commands:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run lint
+npx tsc --noEmit
+npm run build
+npm start
+```
 
-## Deploy on Vercel
+No environment variables are currently required.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Docker
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+docker build -t nadas-shop-dashboard .
+docker run --rm -p 3000:3000 nadas-shop-dashboard
+```
+
+Open [http://localhost:3000](http://localhost:3000). The Dockerfile uses a multi-stage build and runs the standalone Next.js server as a non-root user.
+
+## Dashboard Highlights
+
+The protected dashboard includes revenue, order, customer, and average-order-value statistics. The orders table supports search, status filtering, column sorting, pagination, empty results, and responsive horizontal scrolling on narrow screens. The sales chart displays seven days of mock revenue data with responsive axes and a tooltip.
+
+Export buttons near the table download the complete filtered and sorted result set as `nadas-shop-orders.xlsx` or `nadas-shop-orders.pdf`.
+
+## Implementation Summary
+
+The App Router provides `/login` and protected `/dashboard` pages. Redux stores authentication state, while `StoreProvider` hydrates and persists the logged-in user through `localStorage`. Dashboard interaction state remains local to the table and chart components, keeping the mock data features independent and easy to replace with API data later.
+
+The project was developed using Git Flow-style feature branches. `main` and `develop` are integration branches, while authentication, dashboard, table, chart, export, Docker, polish, and documentation work are isolated in feature branches.
