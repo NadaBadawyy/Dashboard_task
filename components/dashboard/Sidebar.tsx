@@ -1,9 +1,20 @@
 "use client";
 
-import { BarChart3, LayoutDashboard, Settings, ShoppingBag, Users, X } from "lucide-react";
+import { BarChart3, LayoutDashboard, LogOut, ShoppingBag, Users } from "lucide-react";
 import { BrandMark } from "@/components/dashboard/BrandMark";
-
-type SidebarProps = { open: boolean; onClose: () => void };
+import { Button } from "@/components/ui/button";
+import {
+  Sidebar as ShadcnSidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
 
 const navigation = [
   { label: "Overview", icon: LayoutDashboard, active: true },
@@ -12,35 +23,38 @@ const navigation = [
   { label: "Performance", icon: BarChart3 },
 ];
 
-export function Sidebar({ open, onClose }: SidebarProps) {
+type SidebarProps = { email: string; onLogout: () => void };
+
+export function Sidebar({ email, onLogout }: SidebarProps) {
   return (
-    <>
-      {open && <button aria-label="Close navigation" onClick={onClose} className="fixed inset-0 z-30 bg-navy/30 lg:hidden" />}
-      <aside className={`fixed inset-y-0 left-0 z-40 flex w-72 flex-col bg-navy px-5 py-6 text-white transition-transform duration-200 lg:static lg:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}`}>
-        <div className="flex items-center justify-between px-2">
-          <div className="flex items-center gap-3"><BrandMark /><span className="font-semibold tracking-tight">Nada&apos;s Shop</span></div>
-          <button type="button" onClick={onClose} aria-label="Close navigation" className="rounded-md p-2 text-slate-300 hover:bg-white/10 lg:hidden"><X className="size-5" /></button>
+    <ShadcnSidebar>
+      <SidebarHeader>
+        <div className="flex items-center gap-3"><BrandMark /><span className="font-semibold tracking-tight">Nada&apos;s Shop</span></div>
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup >
+          <SidebarGroupLabel className="text-primary/70">Workspace</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu className="space-y-1">
+              {navigation.map(({ label, icon: Icon, active }) => (
+                <SidebarMenuItem key={label}>
+                  <SidebarMenuButton isActive={active} className="py-2">
+                    <Icon className="size-5" />
+                    {label}
+                  
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+      <SidebarFooter>
+        <div className="space-y-3 rounded-xl border border-primary/15 bg-white/60 p-4">
+          <div className="flex items-center gap-3"><span className="flex size-9 items-center justify-center rounded-full bg-primary text-xs font-semibold text-white">A</span><div className="min-w-0"><p className="truncate text-sm font-semibold text-primary">Admin</p><p className="truncate text-xs text-primary/70">{email}</p></div></div>
+          <Button type="button" variant="outline" onClick={onLogout} className="w-full gap-2 border-primary/20 bg-white/70 text-primary hover:bg-primary/10"><LogOut className="size-4" /> Log out</Button>
         </div>
-
-        <div className="mt-12 flex-1">
-          <p className="px-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">Workspace</p>
-          <nav aria-label="Main navigation" className="mt-4 space-y-1">
-            {navigation.map(({ label, icon: Icon, active }) => (
-              <button key={label} type="button" disabled={!active} className={`flex w-full items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium ${active ? "bg-primary text-white" : "text-slate-300 hover:bg-white/10 disabled:cursor-default disabled:hover:bg-transparent"}`}>
-                <Icon className="size-[18px]" />
-                {label}
-                {!active && <span className="ml-auto text-[10px] uppercase tracking-wider text-slate-500">Soon</span>}
-              </button>
-            ))}
-          </nav>
-        </div>
-
-        <div className="rounded-xl border border-white/10 bg-white/5 p-4">
-          <div className="mb-3 flex size-8 items-center justify-center rounded-lg bg-orange/15 text-orange"><Settings className="size-4" /></div>
-          <p className="text-sm font-medium">Keep your workspace moving</p>
-          <p className="mt-1 text-xs leading-5 text-slate-400">More tools and insights are coming soon.</p>
-        </div>
-      </aside>
-    </>
+      </SidebarFooter>
+    </ShadcnSidebar>
   );
 }
