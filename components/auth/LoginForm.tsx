@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "@/features/auth/authSlice";
 import { type AppDispatch, type RootState } from "@/store/store";
 import { Button } from "@/components/ui/button";
+import users from "@/src/data/users.json";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -39,12 +40,16 @@ export function LoginForm() {
     setAuthError("");
     if (Object.keys(nextErrors).length > 0) return;
 
-    if (email.toLowerCase() !== "admin@example.com" || password !== "123456") {
+    const matchingUser = users.find(
+      (user) => user.email.toLowerCase() === email.trim().toLowerCase() && user.password === password,
+    );
+
+    if (!matchingUser) {
       setAuthError("Invalid email or password.");
       return;
     }
 
-    dispatch(login({ email: email.toLowerCase() }));
+    dispatch(login({ email: matchingUser.email }));
     router.push("/dashboard");
   }
 
