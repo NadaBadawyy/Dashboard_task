@@ -19,7 +19,7 @@ export default function LoginPage() {
           <div className="relative space-y-8">
             <div className="flex items-center gap-3">
               <BrandMark />
-              <span className="text-lg font-semibold tracking-tight">pulseboard</span>
+              <span className="text-lg font-semibold tracking-tight">Nada&apos;s Shop</span>
             </div>
             <div className="max-w-sm space-y-5 pt-14">
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-primary">Operations, in focus</p>
@@ -45,7 +45,7 @@ export default function LoginPage() {
           <div className="mx-auto w-full max-w-md space-y-9">
             <div className="flex items-center gap-3 lg:hidden">
               <BrandMark />
-              <span className="text-lg font-semibold tracking-tight text-navy">pulseboard</span>
+              <span className="text-lg font-semibold tracking-tight text-navy">Nada&apos;s Shop</span>
             </div>
             <div className="space-y-3">
               <div className="flex items-center gap-2 text-sm font-medium text-primary"><ShieldCheck className="size-4" /> Secure workspace access</div>
@@ -54,7 +54,7 @@ export default function LoginPage() {
             </div>
             <LoginForm />
             <div className="flex items-center justify-between border-t border-border pt-6 text-xs text-muted-foreground">
-              <span>Pulseboard workspace</span>
+              <span>Nada&apos;s Shop workspace</span>
               <span className="inline-flex items-center gap-1 text-orange"><ArrowUpRight className="size-3.5" /> Private preview</span>
             </div>
           </div>

@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Pulseboard | Sign in",
-  description: "A focused workspace for your dashboard operations.",
+  title: "Nada's Shop | Dashboard",
+  description: "A focused workspace for managing your shop.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
