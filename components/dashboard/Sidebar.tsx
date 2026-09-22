@@ -27,9 +27,9 @@ type SidebarProps = { email: string; onLogout: () => void };
 
 export function Sidebar({ email, onLogout }: SidebarProps) {
   return (
-    <ShadcnSidebar className="py-3">
+    <ShadcnSidebar className="py-3 ">
       <SidebarHeader>
-        <div className="flex items-center gap-3"><BrandMark /><span className="font-semibold tracking-tight">Nada&apos;s Shop</span></div>
+        <div className="flex items-center gap-3 "><BrandMark /><span className="font-semibold tracking-tight text-navy">Nada&apos;s Shop</span></div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup >
