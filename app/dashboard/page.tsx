@@ -1,17 +1,20 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { LogOut, Sparkles } from "lucide-react";
+import { ArrowUpRight, CreditCard, DollarSign, ShoppingBag, Users } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/features/auth/authSlice";
 import { type AppDispatch, type RootState } from "@/store/store";
-import { Button } from "@/components/ui/button";
+import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
+import { Sidebar } from "@/components/dashboard/Sidebar";
+import { StatCard } from "@/components/dashboard/StatCard";
 
 export default function DashboardPage() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
   const { isAuthenticated, isHydrated, user } = useSelector((state: RootState) => state.auth);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (isHydrated && !isAuthenticated) router.replace("/login");
@@ -22,27 +25,33 @@ export default function DashboardPage() {
     router.replace("/login");
   }
 
+  function closeSidebar() {
+    setSidebarOpen(false);
+  }
+
   if (!isHydrated || !isAuthenticated || !user) {
     return <main className="flex min-h-screen items-center justify-center text-sm text-muted-foreground">Loading workspace...</main>;
   }
 
   return (
-    <main className="min-h-screen px-5 py-6 sm:px-8 lg:px-12">
-      <header className="mx-auto flex w-full max-w-7xl items-center justify-between border-b border-border pb-6">
-        <div className="flex items-center gap-3"><span className="flex size-9 items-center justify-center rounded-lg bg-primary font-bold text-white">P</span><span className="font-semibold tracking-tight text-navy">pulseboard</span></div>
-        <Button variant="outline" onClick={handleLogout} className="gap-2"><LogOut className="size-4" /> Log out</Button>
-      </header>
-      <section className="mx-auto flex w-full max-w-7xl flex-col gap-6 py-16">
-        <div className="max-w-2xl space-y-4">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary">Workspace ready</p>
-          <h1 className="text-4xl font-semibold tracking-tight text-navy sm:text-5xl">Your dashboard starts here.</h1>
-          <p className="text-lg leading-8 text-muted-foreground">You are signed in as <span className="font-medium text-foreground">{user.email}</span>. The full operational dashboard will be added in a later feature.</p>
-        </div>
-        <div className="flex max-w-2xl items-start gap-4 rounded-2xl border border-primary/20 bg-secondary p-6 text-secondary-foreground">
-          <Sparkles className="mt-0.5 size-5 shrink-0 text-primary" />
-          <div className="space-y-1"><h2 className="font-semibold">Authentication is working</h2><p className="text-sm leading-6 text-muted-foreground">Your session is persisted locally, so refreshing this page will keep you signed in.</p></div>
-        </div>
-      </section>
+    <main className="flex min-h-screen bg-background">
+      <Sidebar open={sidebarOpen} onClose={closeSidebar} />
+      <div className="min-w-0 flex-1">
+        <DashboardHeader onMenuClick={() => setSidebarOpen(true)} email={user.email} onLogout={handleLogout} />
+        <section className="mx-auto max-w-[1440px] space-y-8 p-5 sm:p-8 lg:p-10">
+          <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><p className="text-sm font-semibold uppercase tracking-[0.18em] text-primary">Overview</p><h1 className="mt-2 text-3xl font-semibold tracking-tight text-navy sm:text-4xl">Good morning, Admin</h1><p className="mt-2 text-sm text-muted-foreground sm:text-base">Here&apos;s what&apos;s happening with your shop today.</p></div><div className="text-sm text-muted-foreground">Tuesday, September 22, 2026</div></div>
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <StatCard label="Total revenue" value="$24,580" change="+12.8%" helper="vs last month" icon={DollarSign} tone="green" />
+            <StatCard label="Orders" value="1,248" change="+8.4%" helper="vs last month" icon={ShoppingBag} tone="blue" />
+            <StatCard label="Customers" value="3,842" change="+5.2%" helper="vs last month" icon={Users} tone="orange" />
+            <StatCard label="Avg. order value" value="$86.40" change="+3.1%" helper="vs last month" icon={CreditCard} tone="teal" />
+          </div>
+          <div className="grid gap-6 lg:grid-cols-[1.35fr_0.65fr]">
+            <section className="rounded-xl border border-border bg-white p-6 shadow-sm shadow-navy/5 sm:p-8"><div className="flex items-start justify-between"><div><h2 className="font-semibold text-navy">Sales activity</h2><p className="mt-1 text-sm text-muted-foreground">Your revenue performance this month</p></div><span className="rounded-md bg-secondary px-2.5 py-1 text-xs font-medium text-primary">This month</span></div><div className="mt-8 flex h-44 items-end gap-2 sm:gap-4"><div className="h-[44%] flex-1 rounded-t-md bg-secondary" /><div className="h-[58%] flex-1 rounded-t-md bg-secondary" /><div className="h-[51%] flex-1 rounded-t-md bg-secondary" /><div className="h-[70%] flex-1 rounded-t-md bg-secondary" /><div className="h-[63%] flex-1 rounded-t-md bg-secondary" /><div className="h-[79%] flex-1 rounded-t-md bg-primary/70" /><div className="h-[92%] flex-1 rounded-t-md bg-primary" /></div><div className="mt-3 flex justify-between text-xs text-muted-foreground"><span>Sep 16</span><span>Sep 22</span></div></section>
+            <section className="rounded-xl border border-border bg-white p-6 shadow-sm shadow-navy/5 sm:p-8"><div className="flex items-start justify-between"><div><h2 className="font-semibold text-navy">Recent activity</h2><p className="mt-1 text-sm text-muted-foreground">Latest shop updates</p></div><ArrowUpRight className="size-4 text-muted-foreground" /></div><div className="mt-7 space-y-5"><div className="flex gap-3"><span className="mt-1 flex size-8 shrink-0 items-center justify-center rounded-full bg-secondary text-primary"><ShoppingBag className="size-4" /></span><div><p className="text-sm font-medium text-navy">New order received</p><p className="mt-1 text-xs text-muted-foreground">Order #1048 · 12 min ago</p></div></div><div className="flex gap-3"><span className="mt-1 flex size-8 shrink-0 items-center justify-center rounded-full bg-accent text-orange"><Users className="size-4" /></span><div><p className="text-sm font-medium text-navy">New customer joined</p><p className="mt-1 text-xs text-muted-foreground">sarah@example.com · 1 hr ago</p></div></div><div className="flex gap-3"><span className="mt-1 flex size-8 shrink-0 items-center justify-center rounded-full bg-blue-50 text-brand-blue"><DollarSign className="size-4" /></span><div><p className="text-sm font-medium text-navy">Payment received</p><p className="mt-1 text-xs text-muted-foreground">Order #1043 · 3 hrs ago</p></div></div></div></section>
+          </div>
+        </section>
+      </div>
     </main>
   );
 }
