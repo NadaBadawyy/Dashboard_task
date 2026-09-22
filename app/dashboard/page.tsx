@@ -10,6 +10,7 @@ import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { Sidebar } from "@/components/dashboard/Sidebar";
 import { StatCard } from "@/components/dashboard/StatCard";
 import { OrdersTable } from "@/components/dashboard/OrdersTable";
+import { SalesChart } from "@/components/dashboard/SalesChart";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export default function DashboardPage() {
@@ -43,12 +44,13 @@ export default function DashboardPage() {
             <StatCard label="Orders" value="1,248" change="+8.4%" helper="vs last month" icon={ShoppingBag} tone="blue" />
             <StatCard label="Customers" value="3,842" change="+5.2%" helper="vs last month" icon={Users} tone="orange" />
             <StatCard label="Avg. order value" value="$86.40" change="+3.1%" helper="vs last month" icon={CreditCard} tone="teal" />
-          </div>
+          </div>  
+          <OrdersTable />
           <div className="grid gap-6 lg:grid-cols-[1.35fr_0.65fr]">
-            <section className="rounded-xl border border-border bg-white p-6 shadow-sm shadow-navy/5 sm:p-8"><div className="flex items-start justify-between"><div><h2 className="font-semibold text-navy">Sales activity</h2><p className="mt-1 text-sm text-muted-foreground">Your revenue performance this month</p></div><span className="rounded-md bg-secondary px-2.5 py-1 text-xs font-medium text-primary">This month</span></div><div className="mt-8 flex h-44 items-end gap-2 sm:gap-4"><div className="h-[44%] flex-1 rounded-t-md bg-secondary" /><div className="h-[58%] flex-1 rounded-t-md bg-secondary" /><div className="h-[51%] flex-1 rounded-t-md bg-secondary" /><div className="h-[70%] flex-1 rounded-t-md bg-secondary" /><div className="h-[63%] flex-1 rounded-t-md bg-secondary" /><div className="h-[79%] flex-1 rounded-t-md bg-primary/70" /><div className="h-[92%] flex-1 rounded-t-md bg-primary" /></div><div className="mt-3 flex justify-between text-xs text-muted-foreground"><span>Sep 16</span><span>Sep 22</span></div></section>
+            <SalesChart />
             <section className="rounded-xl border border-border bg-white p-6 shadow-sm shadow-navy/5 sm:p-8"><div className="flex items-start justify-between"><div><h2 className="font-semibold text-navy">Recent activity</h2><p className="mt-1 text-sm text-muted-foreground">Latest shop updates</p></div><ArrowUpRight className="size-4 text-muted-foreground" /></div><div className="mt-7 space-y-5"><div className="flex gap-3"><span className="mt-1 flex size-8 shrink-0 items-center justify-center rounded-full bg-secondary text-primary"><ShoppingBag className="size-4" /></span><div><p className="text-sm font-medium text-navy">New order received</p><p className="mt-1 text-xs text-muted-foreground">Order #1048 · 12 min ago</p></div></div><div className="flex gap-3"><span className="mt-1 flex size-8 shrink-0 items-center justify-center rounded-full bg-accent text-orange"><Users className="size-4" /></span><div><p className="text-sm font-medium text-navy">New customer joined</p><p className="mt-1 text-xs text-muted-foreground">sarah@example.com · 1 hr ago</p></div></div><div className="flex gap-3"><span className="mt-1 flex size-8 shrink-0 items-center justify-center rounded-full bg-blue-50 text-brand-blue"><DollarSign className="size-4" /></span><div><p className="text-sm font-medium text-navy">Payment received</p><p className="mt-1 text-xs text-muted-foreground">Order #1043 · 3 hrs ago</p></div></div></div></section>
           </div>
-          <OrdersTable />
+        
         </section>
         </SidebarInset>
       </main>
