@@ -1,9 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ArrowDown, ArrowUp, ChevronsUpDown, Search, SlidersHorizontal } from "lucide-react";
+import { ArrowDown, ArrowUp, ChevronsUpDown, FileSpreadsheet, FileText, Search, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { orders, type Order, type OrderStatus } from "@/data/orders";
+import { exportOrdersToExcel, exportOrdersToPdf } from "@/lib/exportOrders";
 
 type SortKey = "id" | "customer" | "date" | "amount" | "status";
 type SortDirection = "asc" | "desc";
@@ -79,9 +80,10 @@ export function OrdersTable() {
     <section className="rounded-xl border border-border bg-white shadow-sm shadow-navy/5">
       <div className="flex flex-col gap-5 border-b border-border p-5 sm:p-6 lg:flex-row lg:items-center lg:justify-between">
         <div><h2 className="font-semibold text-navy">Recent orders</h2><p className="mt-1 text-sm text-muted-foreground">Track and review your latest customer orders.</p></div>
-        <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-end">
           <label className="relative block sm:min-w-64"><Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" /><input type="search" value={query} onChange={(event) => updateQuery(event.target.value)} placeholder="Search orders..." aria-label="Search orders" className="h-10 w-full rounded-lg border border-input bg-white pl-9 pr-3 text-sm outline-none placeholder:text-muted-foreground focus:border-primary focus:ring-4 focus:ring-primary/10" /></label>
           <label className="relative"><SlidersHorizontal className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" /><select value={status} onChange={(event) => updateStatus(event.target.value as "All" | OrderStatus)} aria-label="Filter by status" className="h-10 w-full appearance-none rounded-lg border border-input bg-white pl-9 pr-8 text-sm text-navy outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 sm:w-36"><option value="All">All statuses</option>{statuses.slice(1).map((item) => <option key={item} value={item}>{item}</option>)}</select></label>
+          <div className="flex gap-2"><Button type="button" variant="outline" size="sm" disabled={!filteredOrders.length} onClick={() => exportOrdersToExcel(filteredOrders)} title="Export filtered orders to Excel"><FileSpreadsheet className="size-4 text-primary" /> Excel</Button><Button type="button" variant="outline" size="sm" disabled={!filteredOrders.length} onClick={() => exportOrdersToPdf(filteredOrders)} title="Export filtered orders to PDF"><FileText className="size-4 text-orange" /> PDF</Button></div>
         </div>
       </div>
       <div className="overflow-x-auto">
